@@ -11,27 +11,27 @@
 import { defineAsyncComponent, ref } from "vue";
 import TabList from "@/components/tab-list.vue";
 
-const currentTab = ref('post-list')
-const currentComponent = ref(defineAsyncComponent(() =>
-    import(`./components/${currentTab.value}.vue`)
-))
-
 const tabs = ref([
   {
     name: "Посты",
-    component: "post-list"
+    component: "post/post-list.vue"
   },
   {
     name: "Пользователи",
-    component: "user-list"
+    component: "user/user-list.vue"
   },
 ])
+
+const currentTab = ref(tabs.value[0].component)
+const currentComponent = ref(defineAsyncComponent(() =>
+    import(`./components/${currentTab.value}`)
+))
 
 const changeTab = (value) => {
   currentTab.value = value;
 
   currentComponent.value = defineAsyncComponent(() =>
-      import(`./components/${currentTab.value}.vue`)
+      import(`./components/${currentTab.value}`)
   )
 }
 
@@ -41,6 +41,7 @@ const changeTab = (value) => {
 .app {
   width: 100%;
   max-width: 1100px;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   gap: 20px;

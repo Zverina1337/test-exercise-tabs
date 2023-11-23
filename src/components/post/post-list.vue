@@ -14,7 +14,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { PostService } from "@/services/post-service.js";
-import PostItem from "@/components/post-item.vue";
+import PostItem from "@/components/post/post-item.vue";
 
 const posts = ref([])
 
@@ -28,5 +28,6 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   width: 100%;
+  gap: 20px;
 }
 </style>

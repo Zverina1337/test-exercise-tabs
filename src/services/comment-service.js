@@ -19,10 +19,15 @@ const updateComment = (id, newComment) => {
     return api.put(`comments/${id}`, newComment)
 }
 
+const getPostComments = (id = 1) => {
+    return api.get(`comments?postId=${id}`)
+}
+
 export const CommentService = {
     getAllComments,
     getComment,
     createComment,
     deleteComment,
     updateComment,
+    getPostComments
 }

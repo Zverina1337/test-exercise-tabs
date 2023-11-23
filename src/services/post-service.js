@@ -20,15 +20,10 @@ const updatePost = (id, newPost) => {
     return api.put(`posts/${id}`, newPost)
 }
 
-const getPostComments = (id = 1) => {
-    return api.get(`posts/${id}/comments`)
-}
-
 export const PostService = {
     getAllPosts,
     getPost,
     createPost,
     deletePost,
     updatePost,
-    getPostComments,
 }
