@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import {inject, onMounted, ref} from "vue";
+import { inject, onMounted } from "vue";
 import { UserService } from "@/services/user-service.js";
 import UserItem from "@/components/user/user-item.vue";
 

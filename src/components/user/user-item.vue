@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import { inject, onMounted } from "vue";
+import { inject } from "vue";
 import PostList from "@/components/post/post-list.vue";
 import {PostService} from "@/services/post-service.js";
 

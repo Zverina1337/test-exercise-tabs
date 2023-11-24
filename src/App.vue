@@ -8,11 +8,10 @@
 </template>
 
 <script setup>
-import {onMounted, provide, ref, unref} from "vue";
+import { provide, ref, } from "vue";
 import TabList from "@/components/tab-list.vue";
 import PostList from "@/components/post/post-list.vue";
 import UserList from "@/components/user/user-list.vue";
-import {PostService} from "@/services/post-service.js";
 
 const tabs = ref([
   {
