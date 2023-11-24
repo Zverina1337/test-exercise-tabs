@@ -1,5 +1,9 @@
 <template>
   <section class="posts">
+    <div v-if="isUserPosts">
+      Посты пользователя: {{ currentUserName }}
+      <button class="posts__clear-button" @click="getPosts">Очистить фильтр пользователя</button>
+    </div>
     <post-item
       v-for="post in posts"
       :key="post.id"
@@ -8,46 +12,35 @@
       :title="post.title"
       :description="post.body"
     />
-    <div class="observer" ref="observerRef" />
+    <div
+      v-if="!isUserPosts"
+      class="observer"
+      v-observer="getPosts"
+    />
   </section>
 </template>
 
 <script setup>
-import {onMounted, ref, unref} from "vue";
+import { inject, ref } from "vue";
 import { PostService } from "@/services/post-service.js";
 import PostItem from "@/components/post/post-item.vue";
 
-const posts = ref([])
+const { posts, addPostsToEnd, isUserPosts, changeIsUserPosts } = inject("posts")
+const { currentUserName } = inject("users")
 const gap = ref(20);
 const startValue = ref(0)
-const postCount = ref(unref(gap))
-const observerRef = ref()
 
-const options = {
-  rootMargin: "0px",
-  threshold: 0.5,
-};
-
-const getPosts = (startValue, postCount) => {
-   PostService.getAllPosts(startValue, postCount)
-    .then((response) => {
-      posts.value.push(...response.data);
-    })
-}
-
-const callback = (entries) => {
-  if (entries[0].isIntersecting) {
-    if (posts.value.length < 100) {
-      getPosts(startValue.value, postCount.value)
-      startValue.value += gap.value;
-    }
+const getPosts = () => {
+  if (startValue.value < 100) {
+    PostService.getAllPosts(startValue.value, 20)
+      .then((response) => {
+        changeIsUserPosts(false)
+        addPostsToEnd(response.data);
+      })
+    startValue.value += gap.value;
   }
 }
 
-onMounted( () => {
-  const observer = new IntersectionObserver(callback, options);
-  observer.observe(unref(observerRef))
-})
 </script>
 
 <style lang="scss" scoped>
@@ -56,6 +49,23 @@ onMounted( () => {
   flex-direction: column;
   width: 100%;
   gap: 20px;
+
+  &__clear-button {
+    padding: 5px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform .4s;
+  }
+
+  &__clear-button:hover {
+    transform: scale(1.05);
+  }
+
+  &__clear-button:active {
+    transform: scale(0.95);
+  }
 }
 .observer {
   width: 100%;

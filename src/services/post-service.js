@@ -1,10 +1,11 @@
 import { api } from "@/services/api.js";
 
-const getAllPosts = (start = 0, limit = 100) => {
-   return api.get('posts/', {
+const getAllPosts = (start = 0, limit , params) => {
+   return api.get('posts', {
        params: {
            _start: start,
-           _limit: limit
+           _limit: limit || "",
+           ...params
        }
    })
 }

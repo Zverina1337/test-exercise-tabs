@@ -73,6 +73,10 @@ const addNewComment = () => {
   emit("add-new-comment", model.value)
   model.value.id++;
   changeModalCommentFormShow()
+
+  model.value.email = ""
+  model.value.name = ""
+  model.value.body = ""
 }
 const changeModalCommentFormShow = () => {
   isActiveModalCommentForm.value = !isActiveModalCommentForm.value
