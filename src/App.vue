@@ -2,48 +2,45 @@
   <div class="app">
     <tab-list :tabs="tabs" @tab-click="changeTab" />
     <keep-alive>
-      <component :is="currentComponent" />
+      <component :is="currentTab" />
     </keep-alive>
   </div>
 </template>
 
 <script setup>
-import { defineAsyncComponent, ref } from "vue";
+import { ref } from "vue";
 import TabList from "@/components/tab-list.vue";
+import PostList from "@/components/post/post-list.vue";
+import UserList from "@/components/user/user-list.vue";
 
 const tabs = ref([
   {
     name: "Посты",
-    component: "post/post-list.vue"
+    component: PostList
   },
   {
     name: "Пользователи",
-    component: "user/user-list.vue"
+    component: UserList
   },
 ])
 
 const currentTab = ref(tabs.value[0].component)
-const currentComponent = ref(defineAsyncComponent(() =>
-    import(`./components/${currentTab.value}`)
-))
 
 const changeTab = (value) => {
   currentTab.value = value;
-
-  currentComponent.value = defineAsyncComponent(() =>
-      import(`./components/${currentTab.value}`)
-  )
 }
 
 </script>
 
 <style scoped lang="scss">
 .app {
+  scroll-behavior: smooth;
   width: 100%;
   max-width: 1100px;
   height: 100vh;
   display: flex;
   flex-direction: column;
   gap: 20px;
+  padding-top: 40px;
 }
 </style>

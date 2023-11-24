@@ -1,11 +1,20 @@
 import { api } from "@/services/api.js";
 
-const getAllPosts = (start = 0, limit = 10) => {
-   return api.get(`posts?_start=${start}&_limit=${limit}`)
+const getAllPosts = (start = 0, limit = 100) => {
+   return api.get('posts/', {
+       params: {
+           _start: start,
+           _limit: limit
+       }
+   })
 }
 
 const getPost = (id = 1) => {
-    return api.get(`posts/${id}`)
+    return api.get('posts/', {
+        params: {
+            id
+        }
+    })
 }
 
 const createPost = (newPost) => {
@@ -13,11 +22,19 @@ const createPost = (newPost) => {
 }
 
 const deletePost = (id) => {
-    return api.delete(`posts/${id}`)
+    return api.delete('posts/', {
+        params: {
+            id
+        }
+    })
 }
 
 const updatePost = (id, newPost) => {
-    return api.put(`posts/${id}`, newPost)
+    return api.put('posts/', newPost, {
+        params: {
+            id
+        }
+    })
 }
 
 export const PostService = {

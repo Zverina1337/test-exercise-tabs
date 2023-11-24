@@ -4,7 +4,10 @@
       <h1 class="post-item__title">Title: {{ title }}</h1>
       <p class="post-item__desc">Description: {{ description }}</p>
     </div>
-    <comment-list :comments="comments" />
+    <comment-list
+      :comments="comments"
+      @add-new-comment="updateCurrentPostComments"
+    />
   </article>
 </template>
 
@@ -22,9 +25,20 @@ const props = defineProps({
 
 const comments = ref([])
 
-onMounted(async () =>  {
-  await CommentService.getPostComments(props.postId)
+const getCurrentPostComments =  () => {
+  return CommentService.getPostComments(props.postId)
       .then((response) => comments.value = response.data)
+}
+
+const updateCurrentPostComments = (data) => {
+  comments.value.push({ ...data })
+  // JSONPlaceholder API делает фейковый запрос потому не обновляю данные, запихиваю их напрямую в массив comments
+
+   CommentService.createComment(data, props.postId)
+}
+
+onMounted(  () =>  {
+   getCurrentPostComments()
 })
 </script>
 
