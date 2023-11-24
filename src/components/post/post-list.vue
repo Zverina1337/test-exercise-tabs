@@ -35,7 +35,7 @@ const getPosts = (startValue, postCount) => {
     })
 }
 
-const callback = (entries, observer) => {
+const callback = (entries) => {
   if (entries[0].isIntersecting) {
     if (posts.value.length < 100) {
       getPosts(startValue.value, postCount.value)

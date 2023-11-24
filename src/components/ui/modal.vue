@@ -19,8 +19,6 @@
 </template>
 
 <script setup>
-import {computed} from "vue";
-
 defineProps({
   isActive: { type: Boolean, required: true },
 })
